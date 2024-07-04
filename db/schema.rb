@@ -20,24 +20,24 @@ ActiveRecord::Schema[7.2].define(version: 2024_07_04_151156) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "games_users", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "game_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_games_users_on_game_id"
+    t.index ["user_id"], name: "index_games_users_on_user_id"
+  end
+
   create_table "messages", force: :cascade do |t|
     t.text "text", null: false
     t.string "role", null: false
     t.bigint "user_id", null: false
-    t.bigint "game_id", null: false
+    t.bigint "game_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["game_id"], name: "index_messages_on_game_id"
     t.index ["user_id"], name: "index_messages_on_user_id"
-  end
-
-  create_table "players", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "game_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["game_id"], name: "index_players_on_game_id"
-    t.index ["user_id"], name: "index_players_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -46,8 +46,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_07_04_151156) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "games_users", "games"
+  add_foreign_key "games_users", "users"
   add_foreign_key "messages", "games"
   add_foreign_key "messages", "users"
-  add_foreign_key "players", "games"
-  add_foreign_key "players", "users"
 end

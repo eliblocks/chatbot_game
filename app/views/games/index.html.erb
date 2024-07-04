@@ -1,0 +1,10 @@
+<h4>Games</h4>
+<ul>
+  <% Game.all.each do |game| %>
+    <li>
+      <%= link_to game.id, game_path(game)%>
+    </li>
+  <% end %>
+</ul>
+
+<%= button_to "Create", games_path %>

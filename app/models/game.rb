@@ -1,4 +1,8 @@
 class Game < ApplicationRecord
-  has_many :players
-  has_many :users, through: :players
+  has_and_belongs_to_many :users
+  has_many :messages, dependent: :destroy
+
+  validates :status, inclusion: [ "waiting", "playing", "finished" ]
+
+  scope :active, -> { where(status: [ "waiting", "playing" ]) }
 end

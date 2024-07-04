@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="row">
+    <% @game.users.each do |user| %>
+      <div class="col-md-3 mt-5">
+        <h4><%= user.id %></h4>
+        <div class="card p-2 message-card">
+          <% user.messages.each do |message| %>
+            <p class=<%= message.role == "assistant" ? "text-primary" : "" %>><%= message.text %></p>
+          <% end %>
+        </div>
+        <%= form_with model: user.messages.new do |form| %>
+          <%= form.hidden_field :user_id, value: user.id %>
+          <%= form.text_area :text, class: "form-control" %>
+          <%= form.submit "Send", class: "btn btn-primary mt-2" %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
