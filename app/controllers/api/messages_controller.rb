@@ -4,7 +4,7 @@ class Api::MessagesController < ActionController::API
     telegram_id = params["message"]["from"]["id"].to_s
     user = User.find_or_create_by(telegram_id: telegram_id)
     text = params["message"]["text"]
-    user.messages.create(role:, text:)
-    user.respond
+    message = user.messages.create(role:, text:)
+    message.handle
   end
 end
