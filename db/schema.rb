@@ -16,6 +16,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_07_04_151156) do
 
   create_table "games", force: :cascade do |t|
     t.string "status", null: false
+    t.string "code", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -26,6 +27,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_07_04_151156) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["game_id"], name: "index_games_users_on_game_id"
+    t.index ["user_id", "game_id"], name: "index_games_users_on_user_id_and_game_id", unique: true
     t.index ["user_id"], name: "index_games_users_on_user_id"
   end
 

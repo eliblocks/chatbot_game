@@ -10,4 +10,8 @@ Rails.application.routes.draw do
   resources :messages, only: [ :create ]
 
   resources :games, only: [ :index, :create, :show ]
+
+  namespace :api do
+    resources :messages, only: [ :create ]
+  end
 end

@@ -5,6 +5,8 @@ class CreateGamesUsers < ActiveRecord::Migration[7.2]
       t.references :game, null: false, foreign_key: true
 
       t.timestamps
+
+      t.index [ :user_id, :game_id ], unique: true
     end
   end
 end
