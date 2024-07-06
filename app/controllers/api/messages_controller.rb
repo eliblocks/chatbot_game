@@ -6,5 +6,7 @@ class Api::MessagesController < ActionController::API
     text = params["message"]["text"]
     message = user.messages.create(role:, text:)
     message.handle
+
+    render json: message.user.messages.last
   end
 end
