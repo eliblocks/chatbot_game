@@ -1,42 +1,37 @@
 class User < ApplicationRecord
-  has_many :messages
-  has_and_belongs_to_many :games
-
-  def active_game
-    games.active.first
-  end
+  has_many :messages, dependent: :destroy
+  belongs_to :game, optional: true
 
   def notify_already_playing
-    if active_game
-      reply("You are already in game #{active_game.code}. Message /leave to leave")
+    if game
+      reply("You are already in game #{game.code}. Message /leave to leave")
     end
   end
 
   def create_game
-    return notify_already_playing if active_game
+    return notify_already_playing if game
 
-    game = Game.create(status: "waiting", code: rand(1000..10000))
-    game.users << self
+    update(game: Game.create(status: "waiting", code: rand(1000..10000)))
     reply("Game created, share the game code #{game.code} to let players join")
   end
 
   def join_game
-    return notify_already_playing if active_game
+    return notify_already_playing if game
 
     reply("Enter the code for the game you want to join")
   end
 
   def join_code(code)
-    return notify_already_playing if active_game
+    return notify_already_playing if game
 
-    game = Game.find_by(code:)
+    found_game = Game.find_by(code:)
 
-    return reply("Could not find that game") unless game
-    return reply("This game is not available to join") unless game.status == "waiting"
+    return reply("Could not find that game") unless found_game
+    return reply("This game is not available to join") unless found_game.status == "waiting"
 
-    game.users << self
+    update(game: found_game)
 
-    reply("Welcome to game #{game.code}. Waiting for players to join. #{game.users.count}/4 players waiting")
+    reply("Welcome to game #{game.code}. Waiting for players to join (#{game.users.count}/4 players).")
 
     if game.users.count > 3
       game.update(status: "playing")
@@ -45,13 +40,13 @@ class User < ApplicationRecord
   end
 
   def leave_game
-    game = active_game
     return reply("You are not in a game") unless game
 
-    GamesUsers.find_by(user: self, game:).destroy
-    game.destroy if game.users.none?
+    previous_game = game
+    update(game: nil)
+    previous_game.destroy if previous_game.users.none?
 
-    reply("You have left game #{game.code}")
+    reply("You have left game #{previous_game.code}")
   end
 
   def welcome
@@ -59,6 +54,6 @@ class User < ApplicationRecord
   end
 
   def reply(text)
-    messages.create(role: "assisstant", text:).send_to_user
+    messages.create(role: "assistant", text:).send_to_user
   end
 end

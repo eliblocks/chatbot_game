@@ -7,6 +7,6 @@ class Api::MessagesController < ActionController::API
     message = user.messages.create(role:, text:)
     message.handle
 
-    render json: message.user.messages.last
+    render json: { message: message, messages: Message.includes(:user).as_json(include: :user) }
   end
 end

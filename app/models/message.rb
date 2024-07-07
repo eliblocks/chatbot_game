@@ -16,7 +16,7 @@ class Message < ApplicationRecord
   end
 
   def reply(text)
-    user.messages.create(role: "assisstant", text:).send_to_user
+    user.messages.create(role: "assistant", text:).send_to_user
   end
 
   def handle
@@ -28,10 +28,10 @@ class Message < ApplicationRecord
       user.join_game
     elsif match = text.match(/\A\d{4}\z/)
       user.join_code(match[0])
-    elsif !user.active_game
+    elsif !user.game
       user.welcome
     else
-      user.active_game.play(self)
+      user.game.play(self)
     end
   end
 end

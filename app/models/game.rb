@@ -1,5 +1,5 @@
 class Game < ApplicationRecord
-  has_and_belongs_to_many :users
+  has_many :users
   has_many :messages, dependent: :destroy
 
   validates :status, inclusion: [ "waiting", "playing", "finished" ]

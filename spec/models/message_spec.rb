@@ -28,7 +28,7 @@ RSpec.describe Message do
         message.handle
         new_message = Message.last
 
-        expect(user.active_game).to eq(game)
+        expect(user.game).to eq(game)
         expect(Game.count).to eq(1)
         expect(new_message.text).to include("already")
       end
@@ -43,7 +43,7 @@ RSpec.describe Message do
         message.handle
         new_message = Message.last
 
-        expect(user.active_game).to eq(game)
+        expect(user.game).to eq(game)
         expect(Game.count).to eq(1)
         expect(new_message.text).to include("already")
       end
