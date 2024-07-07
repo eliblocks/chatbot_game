@@ -31,7 +31,7 @@ class Message < ApplicationRecord
     elsif !user.game
       user.welcome
     else
-      user.game.play(self)
+      user.game.handle_status(self)
     end
   end
 end
