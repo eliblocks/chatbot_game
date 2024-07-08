@@ -6,6 +6,14 @@ class Game < ApplicationRecord
 
   scope :active, -> { where(status: [ "waiting", "playing" ]) }
 
+  def system_prompt
+    "The user is guessing a number (1-100). The number is #{secret_number}. Without telling the user the secret number, give them a hint from popular culture if they guess incorrectly"
+  end
+
+  def formatted_messages(user)
+    [ { role: "system", content: system_prompt } ] + user_messages(user).formatted
+  end
+
   def initiate
     users.each do |user|
       text = "Lets Play! You are Player #{player_number(user)}"
@@ -54,5 +62,19 @@ class Game < ApplicationRecord
 
   def player_number(user)
     users.ids.index(user.id)
+  end
+
+  def user_messages(user)
+    messages.where(user:)
+  end
+
+  def chat(messages)
+    OpenAI::Client.new.chat(
+      parameters: {
+        model: "gpt-4o",
+        messages:,
+        temperature: 0.5
+      }
+    )
   end
 end

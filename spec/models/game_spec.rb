@@ -30,4 +30,28 @@ RSpec.describe Game do
       end
     end
   end
+
+  describe '#formatted_messages' do
+    let(:game) { Game.create(status: "playing", code: "1234") }
+    let(:users) do
+      collect = []
+      4.times { collect << User.create(game:) }
+      collect
+    end
+
+    before do
+      users.first.messages.create(role: "user", text: "5", game: game)
+      users.first.messages.create(role: "assistant", text: "Try again", game: game)
+    end
+
+    it 'returns a list of messages formatted for chatgpt' do
+      messages = game.formatted_messages(users.first)
+
+      expect(messages).to eq([
+        { role: "system", content: game.system_prompt },
+        { role: "user", content: "5" },
+        { role: "assistant", content: "Try again" }
+      ])
+    end
+  end
 end

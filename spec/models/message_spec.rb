@@ -6,7 +6,7 @@ RSpec.describe Message do
   describe '#handle' do
     context 'a new user is creating a game' do
       it 'creates a game' do
-        message = user.messages.create(role: "User", text: "/create")
+        message = user.messages.create(role: "user", text: "/create")
 
         message.handle
 
@@ -23,7 +23,7 @@ RSpec.describe Message do
       it 'informs the user' do
         game = Game.create(status: "waiting", code: "4444")
         game.users << user
-        message = user.messages.create(role: "User", text: "/create")
+        message = user.messages.create(role: "user", text: "/create")
 
         message.handle
         new_message = Message.last
@@ -38,7 +38,7 @@ RSpec.describe Message do
       it 'informs the user' do
         game = Game.create(status: "waiting", code: "4444")
         game.users << user
-        message = user.messages.create(role: "User", text: "/join")
+        message = user.messages.create(role: "user", text: "/join")
 
         message.handle
         new_message = Message.last
@@ -51,7 +51,7 @@ RSpec.describe Message do
 
     context 'a user tries to leave a game without being in a game' do
       it 'informs the user' do
-        message = user.messages.create(role: "User", text: "/leave")
+        message = user.messages.create(role: "user", text: "/leave")
 
         message.handle
         new_message = Message.last
@@ -62,7 +62,7 @@ RSpec.describe Message do
 
     context 'a user types the join command' do
       it 'informs the user to enter a code' do
-        message = user.messages.create(role: "User", text: "/join")
+        message = user.messages.create(role: "user", text: "/join")
 
         message.handle
         new_message = Message.last
@@ -73,7 +73,7 @@ RSpec.describe Message do
 
     context 'a user types in an invalid game code' do
       it 'informs the user' do
-        message = user.messages.create(role: "User", text: "1234")
+        message = user.messages.create(role: "user", text: "1234")
 
         message.handle
         new_message = Message.last
@@ -85,7 +85,7 @@ RSpec.describe Message do
     context 'a user types in a game code that is already playing' do
       it 'informs the user' do
         Game.create(status: "finished", code: "1234")
-        message = user.messages.create(role: "User", text: "1234")
+        message = user.messages.create(role: "user", text: "1234")
 
         message.handle
         new_message = Message.last
@@ -98,7 +98,7 @@ RSpec.describe Message do
       it 'adds the user to the game' do
         game = Game.create(status: "waiting", code: "1234")
         game.users << User.create
-        message = user.messages.create(role: "User", text: "1234")
+        message = user.messages.create(role: "user", text: "1234")
 
         message.handle
         new_message = Message.last
@@ -113,7 +113,7 @@ RSpec.describe Message do
         game = Game.create(status: "waiting", code: "1234")
         game.users << User.create
         game.users << user
-        message = user.messages.create(role: "User", text: "/leave")
+        message = user.messages.create(role: "user", text: "/leave")
 
         message.handle
         new_message = Message.last
@@ -125,7 +125,7 @@ RSpec.describe Message do
 
     context 'when a user not in a game sends a message' do
       it 'welcomes the user with instructions' do
-        message = user.messages.create(role: "User", text: "Hello")
+        message = user.messages.create(role: "user", text: "Hello")
 
         message.handle
         new_message = Message.last
@@ -138,7 +138,7 @@ RSpec.describe Message do
       it 'responds with a count of players' do
         game = Game.create(status: "waiting", code: "1234")
         game.users << user
-        message = user.messages.create(role: "User", text: "Hello")
+        message = user.messages.create(role: "user", text: "Hello")
 
         message.handle
         new_message = Message.last
@@ -151,7 +151,7 @@ RSpec.describe Message do
       it 'replies with a message' do
         game = Game.create(status: "playing", code: "1234")
         game.users << user
-        message = user.messages.create(role: "User", text: "Hello")
+        message = user.messages.create(role: "user", text: "Hello")
 
         message.handle
         new_message = Message.last

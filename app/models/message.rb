@@ -3,6 +3,11 @@ class Message < ApplicationRecord
   belongs_to :game, optional: true
 
   validates :text, presence: true
+  validates :role, inclusion: [ "user", "assistant" ]
+
+  def self.formatted
+    all.map { |message| { role: message.role, content: message.text } }
+  end
 
   def send_to_user
     return unless user.telegram_id
@@ -13,10 +18,6 @@ class Message < ApplicationRecord
     json = { text:, chat_id: user.telegram_id }
 
     HTTP.post(url, json:)
-  end
-
-  def reply(text)
-    user.messages.create(role: "assistant", text:).send_to_user
   end
 
   def handle

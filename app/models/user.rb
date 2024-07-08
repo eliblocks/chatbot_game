@@ -54,6 +54,6 @@ class User < ApplicationRecord
   end
 
   def reply(text)
-    messages.create(role: "assistant", text:).send_to_user
+    messages.create(role: "assistant", text:, game:).send_to_user
   end
 end
