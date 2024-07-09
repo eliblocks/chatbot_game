@@ -54,4 +54,48 @@ RSpec.describe Game do
       ])
     end
   end
+
+  describe '#handle_status' do
+    let(:game) { Game.create(status: "waiting", code: "1234") }
+    let(:user) { User.create(game: game) }
+    let(:message) { Message.create(role: "User", text: "23", user: user, game: game) }
+
+    context 'when a game is waiting' do
+      it 'informs the user' do
+        game.handle_status(message)
+
+        expect(user.messages.last.text).to include("Waiting")
+      end
+    end
+
+    context 'when a game is finished' do
+      it 'informs the user' do
+        game.update(status: "finished")
+
+        game.handle_status(message)
+
+        expect(user.messages.last.text).to include("over")
+      end
+    end
+
+    context 'when a game is finished' do
+      it 'informs the user' do
+        game.update(status: "finished")
+
+        game.handle_status(message)
+
+        expect(user.messages.last.text).to include("over")
+      end
+    end
+
+    context 'when a game is playing' do
+      it 'makes a play' do
+        game.update(status: "playing")
+
+        expect(game).to receive(:play).with(message)
+
+        game.handle_status(message)
+      end
+    end
+  end
 end

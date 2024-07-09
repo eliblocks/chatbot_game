@@ -1,0 +1,43 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.telegram.org/bot7337421039:AAHGbUPNkHjBnzrXpE-uAtn1gR6UMO9MaP4/sendMessage
+    body:
+      encoding: UTF-8
+      string: '{"text":"Game created, share the game code 5454 to let players join","chat_id":"12345"}'
+    headers:
+      Connection:
+      - close
+      Content-Type:
+      - application/json; charset=utf-8
+      Host:
+      - api.telegram.org
+      User-Agent:
+      - http.rb/5.2.0
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Server:
+      - nginx/1.18.0
+      Date:
+      - Tue, 09 Jul 2024 23:27:25 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '73'
+      Connection:
+      - close
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Content-Length,Content-Type,Date,Server,Connection
+    body:
+      encoding: UTF-8
+      string: '{"ok":false,"error_code":400,"description":"Bad Request: chat not found"}'
+  recorded_at: Tue, 09 Jul 2024 23:27:25 GMT
+recorded_with: VCR 6.2.0
