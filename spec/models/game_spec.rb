@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Game do
-  describe '#play' do
+  describe "#play" do
     let(:game) { Game.create(status: "playing", code: "1234") }
     let(:users) do
       collect = []
@@ -9,8 +9,8 @@ RSpec.describe Game do
       collect
     end
 
-    context 'when a player wins' do
-      it 'declares them the winner' do
+    context "when a player wins" do
+      it "declares them the winner" do
         winner = users.sample
 
         message = winner.messages.create(role: "user", text: game.secret_number.to_s)
@@ -31,7 +31,7 @@ RSpec.describe Game do
     end
   end
 
-  describe '#formatted_messages' do
+  describe "#formatted_messages" do
     let(:game) { Game.create(status: "playing", code: "1234") }
     let(:users) do
       collect = []
@@ -44,7 +44,7 @@ RSpec.describe Game do
       users.first.messages.create(role: "assistant", text: "Try again", game: game)
     end
 
-    it 'returns a list of messages formatted for chatgpt' do
+    it "returns a list of messages formatted for chatgpt" do
       messages = game.formatted_messages(users.first)
 
       expect(messages).to eq([
@@ -55,21 +55,21 @@ RSpec.describe Game do
     end
   end
 
-  describe '#handle_status' do
+  describe "#handle_status" do
     let(:game) { Game.create(status: "waiting", code: "1234") }
     let(:user) { User.create(game: game) }
     let(:message) { Message.create(role: "User", text: "23", user: user, game: game) }
 
-    context 'when a game is waiting' do
-      it 'informs the user' do
+    context "when a game is waiting" do
+      it "informs the user" do
         game.handle_status(message)
 
         expect(user.messages.last.text).to include("Waiting")
       end
     end
 
-    context 'when a game is finished' do
-      it 'informs the user' do
+    context "when a game is finished" do
+      it "informs the user" do
         game.update(status: "finished")
 
         game.handle_status(message)
@@ -78,8 +78,8 @@ RSpec.describe Game do
       end
     end
 
-    context 'when a game is finished' do
-      it 'informs the user' do
+    context "when a game is finished" do
+      it "informs the user" do
         game.update(status: "finished")
 
         game.handle_status(message)
@@ -88,8 +88,8 @@ RSpec.describe Game do
       end
     end
 
-    context 'when a game is playing' do
-      it 'makes a play' do
+    context "when a game is playing" do
+      it "makes a play" do
         game.update(status: "playing")
 
         expect(game).to receive(:play).with(message)
