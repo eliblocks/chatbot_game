@@ -19,13 +19,13 @@ class Game < ApplicationRecord
       text = "Lets Play! You are Player #{player_number(user)}"
       Message.create(role: "assistant", text:, user:).send_to_user
 
-      text = "Guess the secret number (1-10)"
+      text = "Guess the secret number (1-100)"
       Message.create(role: "assistant", text:, user:).send_to_user
     end
   end
 
   def secret_number
-    ((created_at.to_i % 10) + 1).to_s
+    ((created_at.to_i % 100) + 1).to_s
   end
 
   def handle_status(message)
@@ -42,7 +42,7 @@ class Game < ApplicationRecord
     if message.text == secret_number
       declare_winner(message.user)
     else
-      message.user.reply("Try again")
+      hint(message.user)
     end
   end
 
@@ -68,13 +68,21 @@ class Game < ApplicationRecord
     messages.where(user:)
   end
 
-  def chat(messages)
+  def hint(user)
+    user.reply(response(user))
+  end
+
+  def chat(user)
     OpenAI::Client.new.chat(
       parameters: {
         model: "gpt-4o",
-        messages:,
+        messages: formatted_messages(user),
         temperature: 0.5
       }
     )
+  end
+
+  def response(user)
+    chat(user).dig("choices", 0, "message", "content")
   end
 end

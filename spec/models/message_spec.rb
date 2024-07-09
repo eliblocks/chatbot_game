@@ -148,7 +148,7 @@ RSpec.describe Message do
     end
 
     context 'when a user in middle of a game sends a message' do
-      it 'replies with a message' do
+      it 'replies with a message', :vcr do
         game = Game.create(status: "playing", code: "1234")
         game.users << user
         message = user.messages.create(role: "user", text: "Hello")

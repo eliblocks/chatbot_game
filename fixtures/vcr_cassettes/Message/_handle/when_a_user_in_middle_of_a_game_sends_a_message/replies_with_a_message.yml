@@ -1,0 +1,98 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.openai.com/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"gpt-4o","messages":[{"role":"system","content":"The user
+        is guessing a number (1-100). The number is 31. Without telling the user the
+        secret number, give them a hint from popular culture if they guess incorrectly"}],"temperature":0.5}'
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer OPENAI_SECRET
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 09 Jul 2024 00:30:31 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Openai-Organization:
+      - user-esz09v1ru9ycpuh3vohbbyka
+      Openai-Processing-Ms:
+      - '523'
+      Openai-Version:
+      - '2020-10-01'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Ratelimit-Limit-Requests:
+      - '500'
+      X-Ratelimit-Limit-Tokens:
+      - '30000'
+      X-Ratelimit-Remaining-Requests:
+      - '499'
+      X-Ratelimit-Remaining-Tokens:
+      - '29942'
+      X-Ratelimit-Reset-Requests:
+      - 120ms
+      X-Ratelimit-Reset-Tokens:
+      - 116ms
+      X-Request-Id:
+      - req_eaa6d5c394b7a5fa3eea072d928cc916
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=72jIpusnaVVDpkbzv7d_rEjCyxI23oDA_uKq.CTjwqQ-1720485031-1.0.1.1-C4z5wOb6K_0dLbf.4hKjtwIJvnUaMKvfJz5SadWR2.zvz8Wh51NNA1Lmq0q7BHhP0htBsO.Q9k3BCXNm5opKZw;
+        path=/; expires=Tue, 09-Jul-24 01:00:31 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None
+      - _cfuvid=vZgnj79edi2yI2it9KqJy5eeOJ10z0M1Txg7m.GL4TU-1720485031057-0.0.1.1-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 8a0434affa3a8c42-EWR
+      Alt-Svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "id": "chatcmpl-9it2UWo7PLiI4Jp2EO4b3D4Z34p33",
+          "object": "chat.completion",
+          "created": 1720485030,
+          "model": "gpt-4o-2024-05-13",
+          "choices": [
+            {
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "Sure, go ahead and make your first guess! I'll give you a hint from popular culture if you're off the mark."
+              },
+              "logprobs": null,
+              "finish_reason": "stop"
+            }
+          ],
+          "usage": {
+            "prompt_tokens": 43,
+            "completion_tokens": 24,
+            "total_tokens": 67
+          },
+          "system_fingerprint": "fp_4008e3b719"
+        }
+  recorded_at: Tue, 09 Jul 2024 00:30:31 GMT
+recorded_with: VCR 6.2.0
