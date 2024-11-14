@@ -15,5 +15,17 @@
         <% end %>
       </div>
     <% end %>
+    <% if @game.users.count < 4 %>
+      <% user_id = rand(10000) %>
+      <div class="col-md-3 mt-5">
+        <h4><%= user_id %></h4>
+        <div class="card p-2 message-card"></div>
+        <%= form_with model: Message.new do |form| %>
+          <%= form.hidden_field :user_id, value: user_id %>
+          <%= form.text_area :text, class: "form-control" %>
+          <%= form.submit "Send", class: "btn btn-primary mt-2" %>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 </div>

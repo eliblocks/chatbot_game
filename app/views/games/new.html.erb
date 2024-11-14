@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <p>type /create to start a game</p>
+      <%= form_with model: Message.new do |form| %>
+        <%= form.hidden_field :user_id, value: rand(10000) %>
+        <%= form.text_area :text, class: "form-control" %>
+        <%= form.submit "Send", class: "btn btn-primary mt-2" %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -8,8 +8,9 @@ class GamesController < ApplicationController
   end
 
   def create
-    @game = Game.create(status: "waiting", code: rand(1000..10000))
+    @game = Game.create(status: "playing", code: rand(1000..10000))
     @game.users << [ User.create, User.create, User.create, User.create ]
+    @game.initiate
 
     redirect_to game_path(@game)
   end
